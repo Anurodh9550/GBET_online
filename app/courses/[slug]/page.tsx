@@ -1,23 +1,25 @@
 import { notFound } from "next/navigation";
 import { CourseDetail } from "@/components/online/course-detail";
-import { COURSES, getCourse } from "@/lib/courses";
+import { ONLINE_COURSES, getOnlineCourse } from "@/lib/courses";
 import { pageMetadata, JsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return COURSES.map((course) => ({ slug: course.slug }));
+  return ONLINE_COURSES.map((course) => ({ slug: course.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const course = getCourse(slug);
+  const course = getOnlineCourse(slug);
   if (!course) return {};
   return pageMetadata(course.name, course.overview, `/courses/${course.slug}`);
 }
 
 export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const course = getCourse(slug);
+  const course = getOnlineCourse(slug);
   if (!course) notFound();
 
   return (

@@ -48,14 +48,14 @@ export function AdminLogin() {
       <p className="text-xs font-semibold tracking-[0.16em] text-brand uppercase">GBET Online</p>
       <h1 className="mt-2 font-serif text-4xl text-[#3d2918]">Admissions desk</h1>
       <p className="mt-2 text-sm text-stone-600">Sign in to read enquiries from the website and the brochure.</p>
-      <form onSubmit={onSubmit} className="mt-8 grid gap-4 rounded-3xl border border-[#eedfd0] bg-white p-6">
+      <form onSubmit={onSubmit} className="mt-8 grid gap-4 rounded-3xl border border-[#ebe4dc] bg-white p-6">
         <label className="grid gap-1.5 text-sm font-semibold">
           Username
           <input
             value={username}
             onChange={(event) => setUsername(event.target.value)}
             autoComplete="username"
-            className="h-11 rounded-xl border border-[#eedfd0] px-3 font-normal outline-none"
+            className="h-11 rounded-xl border border-[#ebe4dc] px-3 font-normal outline-none"
           />
         </label>
         <label className="grid gap-1.5 text-sm font-semibold">
@@ -65,7 +65,7 @@ export function AdminLogin() {
             onChange={(event) => setPassword(event.target.value)}
             type="password"
             autoComplete="current-password"
-            className="h-11 rounded-xl border border-[#eedfd0] px-3 font-normal outline-none"
+            className="h-11 rounded-xl border border-[#ebe4dc] px-3 font-normal outline-none"
           />
         </label>
         {error ? <p className="text-sm text-red-700">{error}</p> : null}

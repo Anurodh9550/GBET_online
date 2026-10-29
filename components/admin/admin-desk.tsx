@@ -125,7 +125,7 @@ export function AdminDesk() {
           ["Called", counts.called],
           ["Closed", counts.closed],
         ].map(([label, count]) => (
-          <div key={label} className="rounded-2xl border border-[#eedfd0] bg-white px-4 py-3">
+          <div key={label} className="rounded-2xl border border-[#ebe4dc] bg-white px-4 py-3">
             <p className="text-xs font-semibold tracking-wide text-stone-500 uppercase">{label}</p>
             <p className="mt-1 font-serif text-3xl">{count}</p>
           </div>
@@ -138,7 +138,7 @@ export function AdminDesk() {
             key={item.id}
             type="button"
             onClick={() => setStatus(item.id)}
-            className={`rounded-full px-4 py-2 text-sm font-semibold ${status === item.id ? "bg-[#3d2918] text-white" : "bg-white ring-1 ring-[#eedfd0]"}`}
+            className={`rounded-full px-4 py-2 text-sm font-semibold ${status === item.id ? "bg-[#3d2918] text-white" : "bg-white ring-1 ring-[#ebe4dc]"}`}
           >
             {item.label}
           </button>
@@ -147,19 +147,19 @@ export function AdminDesk() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Search name, mobile, course"
-          className="h-10 min-w-56 flex-1 rounded-full border border-[#eedfd0] bg-white px-4 text-sm outline-none"
+          className="h-10 min-w-56 flex-1 rounded-full border border-[#ebe4dc] bg-white px-4 text-sm outline-none"
         />
       </div>
 
       {error ? <p className="mt-4 text-sm text-red-700">{error}</p> : null}
       {loading ? <p className="mt-8 text-sm text-stone-500">Loading enquiries…</p> : null}
       {!loading && visible.length === 0 ? (
-        <p className="mt-8 rounded-2xl border border-[#eedfd0] bg-white p-6 text-sm">No enquiry matches this view.</p>
+        <p className="mt-8 rounded-2xl border border-[#ebe4dc] bg-white p-6 text-sm">No enquiry matches this view.</p>
       ) : null}
 
       <div className="mt-6 grid gap-4">
         {visible.map((row) => (
-          <article key={row.id} className="rounded-3xl border border-[#eedfd0] bg-white p-5">
+          <article key={row.id} className="rounded-3xl border border-[#ebe4dc] bg-white p-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h2 className="text-lg font-semibold">{row.full_name}</h2>
@@ -179,7 +179,7 @@ export function AdminDesk() {
               <select
                 value={row.status}
                 onChange={(event) => void save(row, { status: event.target.value as EnquiryStatus })}
-                className="h-11 rounded-xl border border-[#eedfd0] bg-white px-3 text-sm"
+                className="h-11 rounded-xl border border-[#ebe4dc] bg-white px-3 text-sm"
               >
                 <option value="new">New</option>
                 <option value="called">Called</option>
@@ -192,7 +192,7 @@ export function AdminDesk() {
                   if (event.target.value !== row.note) void save(row, { note: event.target.value });
                 }}
                 placeholder="Desk note"
-                className="h-11 rounded-xl border border-[#eedfd0] px-3 text-sm outline-none"
+                className="h-11 rounded-xl border border-[#ebe4dc] px-3 text-sm outline-none"
               />
             </div>
           </article>

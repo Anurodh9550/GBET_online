@@ -50,11 +50,11 @@ export function Reveal({
       className={cn(as === "div" && "h-full", className)}
       initial={{ opacity: 0, y: shift ? 40 : 0 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount, margin: "0px 0px -12% 0px" }}
+      viewport={{ once: true, amount: Math.min(amount, 0.12), margin: "0px 0px -4% 0px" }}
       whileHover={canHover ? { y: -6, transition: { duration: 0.45, delay: 0 } } : undefined}
       transition={{
-        duration: shift ? 1.15 : 1.45,
-        delay: delay * 3,
+        duration: shift ? 0.9 : 1.1,
+        delay: delay * 2,
         ease: [0.16, 1, 0.3, 1],
       }}
       {...rest}

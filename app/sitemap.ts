@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { COURSES } from "@/lib/courses";
+import { ONLINE_COURSES } from "@/lib/courses";
 import { SITE } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: path === "" ? 1 : 0.8,
     })),
-    ...COURSES.map((course) => ({
+    ...ONLINE_COURSES.map((course) => ({
       url: `${SITE.url}/courses/${course.slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,

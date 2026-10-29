@@ -1021,8 +1021,16 @@ export const COURSES: Course[] = [
   },
 ];
 
+export const ONLINE_COURSES: Course[] = ONLINE_SHOWCASE.map((slug) => COURSES.find((course) => course.slug === slug)).filter(
+  (course): course is Course => course != null,
+);
+
 export function getCourse(slug: string) {
   return COURSES.find((course) => course.slug === slug);
+}
+
+export function getOnlineCourse(slug: string) {
+  return ONLINE_COURSES.find((course) => course.slug === slug);
 }
 
 export function getCoursesByCategory(category: CourseCategory | "all") {

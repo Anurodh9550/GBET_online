@@ -4,13 +4,13 @@ import { ArrowRight, Phone } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { useI18n } from "@/components/providers/language-provider";
 import { SITE, SOCIAL } from "@/lib/site";
-import { CATEGORIES, COURSES } from "@/lib/courses";
+import { CATEGORIES, ONLINE_COURSES } from "@/lib/courses";
 
 function campusHref(path: string) {
   return `${SITE.campusUrl}${path}`;
 }
 
-const LOCATIONS = ["Noida", "Pharmacy", "Education", "Paramedical", "AI", "Design"] as const;
+const LOCATIONS = ["Design", "Media", "Arts", "Wellness", "Hospitality", "Business", "AI"] as const;
 
 const ABOUT_LINKS = [
   { href: "/about", key: "about" as const },
@@ -31,9 +31,9 @@ const RESOURCE_LINKS = [
 ];
 
 const COURSE_COLUMNS: { ids: Array<(typeof CATEGORIES)[number]["id"]> }[] = [
-  { ids: ["pharmacy", "education", "paramedical"] },
-  { ids: ["ai", "business"] },
-  { ids: ["design", "media", "arts", "wellness", "hospitality"] },
+  { ids: ["design", "media", "arts"] },
+  { ids: ["wellness", "hospitality"] },
+  { ids: ["business", "ai"] },
 ];
 
 const SOCIAL_PATHS: Record<string, string> = {
@@ -50,8 +50,8 @@ export function Footer() {
   const { t, locale } = useI18n();
 
   return (
-    <footer className="mt-auto border-t border-[#eedfd0] bg-cream text-navy">
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-14 sm:px-6 lg:flex-row lg:items-start lg:justify-between">
+    <footer className="mt-auto border-t border-[#ebe4dc] bg-cream text-navy">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-10 sm:gap-8 sm:px-6 sm:py-14 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-xl">
           <h2 className="text-3xl font-semibold tracking-tight sm:text-[2.15rem]">
             {locale === "hi" ? "अगला सत्र शुरू करने के लिए तैयार हैं?" : "Ready to start your next session?"}
@@ -74,7 +74,7 @@ export function Footer() {
         </a>
       </div>
 
-      <div className="mx-auto max-w-7xl border-t border-[#eedfd0] px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl border-t border-[#ebe4dc] px-4 sm:px-6">
         <div className="flex flex-col gap-8 py-10 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <Logo />
@@ -108,8 +108,8 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl border-t border-[#eedfd0] px-4 py-10 sm:px-6">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mx-auto max-w-7xl border-t border-[#ebe4dc] px-4 py-10 sm:px-6">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-10 lg:grid-cols-5">
           <div>
             <h3 className="text-sm font-semibold text-navy">{locale === "hi" ? "हमारे बारे में" : "About Us"}</h3>
             <ul className="mt-4 space-y-2.5 text-sm text-stone-600">
@@ -154,7 +154,7 @@ export function Footer() {
               )}
               {col.ids.map((id) => {
                 const cat = CATEGORIES.find((c) => c.id === id);
-                const items = COURSES.filter((c) => c.category === id);
+                const items = ONLINE_COURSES.filter((c) => c.category === id);
                 if (!cat || items.length === 0) return null;
                 return (
                   <div key={id} className="mt-5 first:mt-4">
@@ -173,6 +173,12 @@ export function Footer() {
                   </div>
                 );
               })}
+              {i === COURSE_COLUMNS.length - 1 ? (
+                <a href="/courses" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand/80">
+                  {locale === "hi" ? "सभी कोर्स देखें" : "View all courses"}
+                  <ArrowRight className="size-4" />
+                </a>
+              ) : null}
             </div>
           ))}
 
@@ -196,7 +202,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl border-t border-[#eedfd0] px-4 sm:px-6">
+      <div className="mx-auto max-w-7xl border-t border-[#ebe4dc] px-4 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-2 py-4 text-xs text-stone-500">
           <p>
             © {new Date().getFullYear()} {SITE.fullName}. {t.footer.rights}

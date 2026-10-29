@@ -14,7 +14,7 @@
   --color-navy: #3d2918;
   --color-brand: #e85c1a;
   --color-cyan: #1f7a32;
-  --color-cream: #fff8f2;
+  --color-cream: #fcfaf7;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -54,7 +54,7 @@
 }
 
 :root {
-  --background: #fff8f2;
+  --background: #fcfaf7;
   --foreground: #3d2918;
   --card: #ffffff;
   --card-foreground: #3d2918;
@@ -62,15 +62,15 @@
   --popover-foreground: #3d2918;
   --primary: #e85c1a;
   --primary-foreground: #ffffff;
-  --secondary: #fff1e6;
+  --secondary: #f6f1eb;
   --secondary-foreground: #3d2918;
-  --muted: #fff1e6;
+  --muted: #f6f1eb;
   --muted-foreground: #6b5344;
   --accent: #1f7a32;
   --accent-foreground: #ffffff;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #eedfd0;
-  --input: #eedfd0;
+  --border: #ebe4dc;
+  --input: #ebe4dc;
   --ring: #e85c1a;
   --chart-1: #e85c1a;
   --chart-2: #1f7a32;
@@ -78,13 +78,13 @@
   --chart-4: #c9a227;
   --chart-5: #166534;
   --radius: 0.75rem;
-  --sidebar: #fff8f2;
+  --sidebar: #fcfaf7;
   --sidebar-foreground: #3d2918;
   --sidebar-primary: #e85c1a;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #fff1e6;
+  --sidebar-accent: #f6f1eb;
   --sidebar-accent-foreground: #3d2918;
-  --sidebar-border: #eedfd0;
+  --sidebar-border: #ebe4dc;
   --sidebar-ring: #e85c1a;
 }
 
@@ -105,6 +105,17 @@
 }
 
 @layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  @media (max-width: 639px) {
+    body:has(.mobile-cta-bar) footer {
+      padding-bottom: 4.5rem;
+    }
+  }
   .glass {
     background: rgba(255, 255, 255, 0.86);
     backdrop-filter: blur(18px);
@@ -118,13 +129,13 @@
     border: 1px solid rgba(232, 92, 26, 0.28);
   }
   .hero-grid {
-    background: #fff8f2;
+    background: #fcfaf7;
   }
   .path-mesh {
-    background-color: #fff8f2;
+    background-color: #fcfaf7;
     background-image:
       radial-gradient(ellipse 70% 55% at 100% 0%, rgba(232, 92, 26, 0.1), transparent 62%),
-      linear-gradient(180deg, #fff8f2 0%, #fff3ea 100%);
+      linear-gradient(180deg, #fcfaf7 0%, #f8f3ee 100%);
   }
   .text-gradient {
     background: linear-gradient(90deg, #e85c1a, #c9a227);

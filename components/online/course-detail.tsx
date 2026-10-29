@@ -9,7 +9,7 @@ import { EnquiryForm } from "@/components/forms/enquiry-form";
 import { useI18n } from "@/components/providers/language-provider";
 import { SUCCESS_STORIES } from "@/lib/content";
 import { curriculumTotals, formatClock, getCurriculum } from "@/lib/curriculum";
-import { CATEGORIES, COURSES, courseKind, getCourse, programmeLabel, type CourseCategory } from "@/lib/courses";
+import { CATEGORIES, ONLINE_COURSES, courseKind, getOnlineCourse, programmeLabel, type CourseCategory } from "@/lib/courses";
 import { HIRING_COMPANIES, SITE } from "@/lib/site";
 
 const TOOLS: Record<CourseCategory, string[]> = {
@@ -36,7 +36,7 @@ function splitTitle(name: string) {
 }
 
 export function CourseDetail({ slug }: { slug: string }) {
-  const course = getCourse(slug);
+  const course = getOnlineCourse(slug);
   const { locale } = useI18n();
   const hi = locale === "hi";
   const [menu, setMenu] = useState(false);
@@ -58,13 +58,13 @@ export function CourseDetail({ slug }: { slug: string }) {
   const kind = programmeLabel(courseKind(course), hi);
   const tools = TOOLS[course.category];
   const stories = SUCCESS_STORIES.slice(0, 3);
-  const related = COURSES.filter((item) => item.category === course.category && item.slug !== course.slug).slice(0, 3);
+  const related = ONLINE_COURSES.filter((item) => item.category === course.category && item.slug !== course.slug).slice(0, 3);
   const modules = getCurriculum(course);
   const totals = curriculumTotals(modules);
 
   return (
-    <div className="bg-[#fff8f2] text-[#3d2918]">
-      <header className="sticky top-0 z-50 border-b border-[#eedfd0] bg-[#fff8f2]/95 backdrop-blur">
+    <div className="bg-[#fcfaf7] text-[#3d2918]">
+      <header className="sticky top-0 z-50 border-b border-[#ebe4dc] bg-[#fcfaf7]/95 backdrop-blur">
         <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-2.5" aria-label="GBET Online home">
             <span className="relative size-11 overflow-hidden rounded-full ring-2 ring-brand">
@@ -84,12 +84,12 @@ export function CourseDetail({ slug }: { slug: string }) {
             <a href={`${SITE.campusUrl}/login/student`} className="px-3 py-2 text-sm font-semibold">{hi ? "लॉगिन" : "Login"}</a>
             <a href="#enquiry" className="rounded-full bg-brand px-4 py-2.5 text-sm font-semibold text-white">{hi ? "पूछताछ करें" : "Enquire now"}</a>
           </div>
-          <button type="button" className="grid size-10 place-items-center rounded-full border border-[#eedfd0] lg:hidden" onClick={() => setMenu((value) => !value)} aria-label="Menu">
+          <button type="button" className="grid size-10 place-items-center rounded-full border border-[#ebe4dc] lg:hidden" onClick={() => setMenu((value) => !value)} aria-label="Menu">
             {menu ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
         {menu ? (
-          <div className="space-y-3 border-t border-[#eedfd0] px-4 py-4 text-sm font-semibold lg:hidden">
+          <div className="space-y-3 border-t border-[#ebe4dc] px-4 py-4 text-sm font-semibold lg:hidden">
             <Link href="/" onClick={() => setMenu(false)} className="block">{hi ? "होम" : "Home"}</Link>
             <Link href="/courses" onClick={() => setMenu(false)} className="block">{hi ? "कोर्स" : "Courses"}</Link>
             <a href="#enquiry" onClick={() => setMenu(false)} className="block">{hi ? "पूछताछ करें" : "Enquire now"}</a>
@@ -110,10 +110,10 @@ export function CourseDetail({ slug }: { slug: string }) {
             <span className="inline-flex items-center rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white">
               {kind}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-semibold ring-1 ring-[#eedfd0]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-semibold ring-1 ring-[#ebe4dc]">
               {hi ? course.durationHi : course.duration}
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#eedfd0] bg-white px-3 py-1.5 text-xs font-semibold">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#ebe4dc] bg-white px-3 py-1.5 text-xs font-semibold">
               <MapPin className="size-3.5 text-brand" /> {category ? (hi ? category.labelHi : category.label) : (hi ? "ऑनलाइन" : "Online")}
             </span>
           </div>
@@ -123,7 +123,7 @@ export function CourseDetail({ slug }: { slug: string }) {
           </h1>
           <p className="mt-4 max-w-xl text-base leading-7 text-stone-600">{hi ? course.overviewHi : course.overview}</p>
           <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-            <span className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 ring-1 ring-[#eedfd0]">
+            <span className="inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 ring-1 ring-[#ebe4dc]">
               <Star className="size-4 fill-brand text-brand" />
               <strong>{course.rating}</strong>
               <span className="text-stone-500">({course.reviews} {hi ? "समीक्षा" : "reviews"})</span>
@@ -158,7 +158,7 @@ export function CourseDetail({ slug }: { slug: string }) {
       </section>
 
       <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
-        <div className="flex flex-col gap-4 rounded-full border border-[#eedfd0] bg-white px-5 py-3 lg:flex-row lg:items-center">
+        <div className="flex flex-col gap-4 rounded-full border border-[#ebe4dc] bg-white px-5 py-3 lg:flex-row lg:items-center">
           <div className="min-w-0 flex-1 overflow-hidden">
             <div className="animate-marquee flex w-max items-center gap-8 pr-8 text-sm font-semibold text-stone-600">
               {[...HIRING_COMPANIES, ...HIRING_COMPANIES].map((name, index) => (
@@ -173,13 +173,13 @@ export function CourseDetail({ slug }: { slug: string }) {
         </div>
       </div>
 
-      <section className="border-y border-[#eedfd0] bg-white">
+      <section className="border-y border-[#ebe4dc] bg-white">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-3">
           <div>
             <h2 className="font-serif text-3xl text-[#3d2918]">{hi ? "पहली भूमिका" : "First roles"}</h2>
             <div className="mt-4 flex flex-wrap gap-2">
               {careers.map((item) => (
-                <span key={item} className="rounded-full border border-[#eedfd0] bg-[#fff8f2] px-3 py-1.5 text-sm">{item}</span>
+                <span key={item} className="rounded-full border border-[#ebe4dc] bg-[#fcfaf7] px-3 py-1.5 text-sm">{item}</span>
               ))}
             </div>
           </div>
@@ -198,7 +198,7 @@ export function CourseDetail({ slug }: { slug: string }) {
             <h2 className="font-serif text-3xl text-[#3d2918]">{hi ? "डेस्क पर काम" : "Work on the desk"}</h2>
             <div className="mt-4 grid grid-cols-2 gap-3">
               {tools.map((tool) => (
-                <div key={tool} className="grid h-20 place-items-center rounded-2xl border border-[#eedfd0] bg-[#fff8f2] px-2 text-center text-xs font-bold text-[#3d2918]">
+                <div key={tool} className="grid h-20 place-items-center rounded-2xl border border-[#ebe4dc] bg-[#fcfaf7] px-2 text-center text-xs font-bold text-[#3d2918]">
                   {tool}
                 </div>
               ))}
@@ -224,7 +224,7 @@ export function CourseDetail({ slug }: { slug: string }) {
             {hi ? "ब्रोशर डाउनलोड" : "Download brochure"}
           </button>
         </div>
-        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 lg:grid-cols-4">
           {[
             { icon: BookOpen, value: String(totals.modules), label: hi ? "मॉड्यूल" : "Modules" },
             { icon: FolderOpen, value: String(totals.pieces), label: hi ? "स्टूडियो पीस" : "Studio pieces" },
@@ -233,12 +233,12 @@ export function CourseDetail({ slug }: { slug: string }) {
           ].map((item) => {
             const Icon = item.icon;
             return (
-            <div key={item.label} className="flex items-center gap-3 rounded-2xl border border-[#eedfd0] bg-white px-4 py-4">
-              <span className="grid size-10 place-items-center rounded-xl bg-[#fff8f2] text-brand">
+            <div key={item.label} className="flex items-center gap-2.5 rounded-2xl border border-[#ebe4dc] bg-white px-3 py-3 sm:gap-3 sm:px-4 sm:py-4">
+              <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-[#fcfaf7] text-brand sm:size-10">
                 <Icon className="size-4" />
               </span>
-              <div>
-                <p className="text-2xl font-semibold text-[#3d2918]">{item.value}</p>
+              <div className="min-w-0">
+                <p className="text-xl font-semibold whitespace-nowrap text-[#3d2918] sm:text-2xl">{item.value}</p>
                 <p className="text-xs text-stone-500">{item.label}</p>
               </div>
             </div>
@@ -250,7 +250,7 @@ export function CourseDetail({ slug }: { slug: string }) {
             <button
               type="button"
               onClick={() => setPanel("lessons")}
-              className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold ${panel === "lessons" ? "bg-[#3d2918] text-white" : "border border-[#eedfd0] bg-white"}`}
+              className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold ${panel === "lessons" ? "bg-[#3d2918] text-white" : "border border-[#ebe4dc] bg-white"}`}
             >
               <BookOpen className="size-4" />
               {hi ? "पाठ" : "Lessons"}
@@ -258,7 +258,7 @@ export function CourseDetail({ slug }: { slug: string }) {
             <button
               type="button"
               onClick={() => setPanel("pieces")}
-              className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold ${panel === "pieces" ? "bg-[#3d2918] text-white" : "border border-[#eedfd0] bg-white"}`}
+              className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold ${panel === "pieces" ? "bg-[#3d2918] text-white" : "border border-[#ebe4dc] bg-white"}`}
             >
               <FolderOpen className="size-4" />
               {hi ? "स्टूडियो पीस" : "Studio pieces"}
@@ -273,9 +273,9 @@ export function CourseDetail({ slug }: { slug: string }) {
               ? item.lessons.map((lesson) => (hi ? lesson.hi : lesson.en))
               : [hi ? item.piece.hi : item.piece.en];
             return (
-              <article key={item.title} className={`overflow-hidden rounded-2xl border border-[#eedfd0] ${open ? "bg-[#fff8f2]" : "bg-white"}`}>
+              <article key={item.title} className={`overflow-hidden rounded-2xl border border-[#ebe4dc] ${open ? "bg-[#fcfaf7]" : "bg-white"}`}>
                 <button type="button" className="flex w-full items-center gap-3 px-4 py-4 text-left sm:gap-4" onClick={() => setOpenModule(open ? -1 : index)} aria-expanded={open}>
-                  <span className={`grid size-9 shrink-0 place-items-center rounded-full text-xs font-bold ${open ? "bg-brand text-white" : "bg-[#fff8f2] text-[#3d2918]"}`}>
+                  <span className={`grid size-9 shrink-0 place-items-center rounded-full text-xs font-bold ${open ? "bg-brand text-white" : "bg-[#fcfaf7] text-[#3d2918]"}`}>
                     {String(index).padStart(2, "0")}
                   </span>
                   <span className="min-w-0 flex-1 font-semibold text-[#3d2918]">{hi ? item.titleHi : item.title}</span>
@@ -288,7 +288,7 @@ export function CourseDetail({ slug }: { slug: string }) {
                 {open ? (
                   <div className="flex flex-wrap gap-2 px-4 pb-4 sm:pl-16">
                     {chips.map((step) => (
-                      <span key={step} className="rounded-full border border-[#eedfd0] bg-white px-3 py-1.5 text-sm">{step}</span>
+                      <span key={step} className="rounded-full border border-[#ebe4dc] bg-white px-3 py-1.5 text-sm">{step}</span>
                     ))}
                   </div>
                 ) : null}
@@ -299,7 +299,7 @@ export function CourseDetail({ slug }: { slug: string }) {
       </section>
 
       <section className="bg-[#3d2918] text-white">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 gap-y-5 px-4 py-8 sm:gap-6 sm:px-6 lg:grid-cols-4">
           {[
             [hi ? "अवधि" : "Duration", hi ? course.durationHi : course.duration],
             [hi ? "पढ़ाई" : "Study", hi ? "रिकॉर्डेड पाठ और लाइव सेशन" : "Recorded lessons plus live sessions"],
@@ -318,7 +318,7 @@ export function CourseDetail({ slug }: { slug: string }) {
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2">
           <div>
             <p className="text-xs font-semibold tracking-[0.16em] text-brand uppercase">{hi ? "पढ़ाई का रिकॉर्ड" : "Study record"}</p>
-            <h2 className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">
+            <h2 className="mt-3 font-serif text-[2rem] leading-tight sm:text-5xl">
               {hi ? "जो काम आप पूरा करते हैं" : "The work you finish"}
               <span className="block text-brand">{hi ? "वही आपका रिकॉर्ड है" : "is the record you keep"}</span>
             </h2>
@@ -339,23 +339,23 @@ export function CourseDetail({ slug }: { slug: string }) {
               <p className="mt-6 text-center text-xs uppercase tracking-[0.2em] text-stone-500">{hi ? "कोर्स रिकॉर्ड" : "Course record"}</p>
               <p className="mt-3 text-center font-serif text-2xl">{hi ? course.nameHi : course.name}</p>
               <p className="mt-4 text-center text-xs text-stone-500">{SITE.year}</p>
-              <p className="mt-6 border-t border-[#eadfce] pt-3 text-center text-[11px] text-stone-500">{SITE.trust}</p>
+              <p className="mt-6 border-t border-[#ebe4dc] pt-3 text-center text-[11px] text-stone-500">{SITE.trust}</p>
             </article>
-            <div className="relative min-h-64 overflow-hidden rounded-sm shadow-lg">
+            <div className="relative hidden min-h-64 overflow-hidden rounded-sm shadow-lg sm:block">
               <Image src={course.image} alt="" fill className="object-cover" sizes="400px" />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <h2 className="font-serif text-4xl text-[#3d2918] sm:text-5xl">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+        <h2 className="font-serif text-[2rem] text-[#3d2918] sm:text-5xl">
           {hi ? "परिसर की बातें" : "Notes from the campus"}
         </h2>
         <p className="mt-2 text-stone-600">{hi ? "नोएडा बैच के शिक्षार्थी अपनी पहली भूमिका के बारे में।" : "Learners from the Noida batches, on the move into a first role."}</p>
-        <div className="mt-8 grid gap-5 md:grid-cols-3">
+        <div className="no-scrollbar -mx-4 mt-6 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mt-8 sm:grid sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-3">
           {stories.map((story) => (
-            <article key={story.name} className="overflow-hidden rounded-2xl border border-[#eedfd0] bg-white">
+            <article key={story.name} className="w-[84%] shrink-0 snap-start overflow-hidden rounded-2xl border border-[#ebe4dc] bg-white sm:w-auto">
               <div className="flex items-center gap-3 p-5">
                 <span className="relative size-12 overflow-hidden rounded-full">
                   <Image src={story.photo} alt="" fill className="object-cover" sizes="48px" />
@@ -372,11 +372,11 @@ export function CourseDetail({ slug }: { slug: string }) {
       </section>
 
       {related.length > 0 ? (
-        <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
+        <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-16">
           <h2 className="font-serif text-3xl text-[#3d2918]">{hi ? "इसी डेस्क के और कोर्स" : "Other courses on this desk"}</h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <div className="no-scrollbar -mx-4 mt-6 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 md:grid-cols-3">
             {related.map((item) => (
-              <Link key={item.slug} href={`/courses/${item.slug}`} className="overflow-hidden rounded-2xl border border-[#eedfd0] bg-white">
+              <Link key={item.slug} href={`/courses/${item.slug}`} className="w-[72%] shrink-0 snap-start overflow-hidden rounded-2xl border border-[#ebe4dc] bg-white sm:w-auto">
                 <div className="relative h-36">
                   <Image src={item.image} alt="" fill className="object-cover" sizes="400px" />
                 </div>
@@ -390,19 +390,19 @@ export function CourseDetail({ slug }: { slug: string }) {
         </section>
       ) : null}
 
-      <section id="enquiry" className="border-t border-[#eedfd0] bg-white">
-        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-          <h2 className="mb-2 font-serif text-4xl text-[#3d2918]">{hi ? "इस कोर्स की काउंसलिंग" : "Counselling for this course"}</h2>
+      <section id="enquiry" className="border-t border-[#ebe4dc] bg-white">
+        <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+          <h2 className="mb-2 font-serif text-3xl text-[#3d2918] sm:text-4xl">{hi ? "इस कोर्स की काउंसलिंग" : "Counselling for this course"}</h2>
           <p className="mb-6 text-sm text-stone-600">{hi ? "फॉर्म इसी कार्यक्रम के नाम के साथ जाता है।" : "The form goes out with this programme already selected."}</p>
           <EnquiryForm compact defaultCourse={course.name} />
         </div>
       </section>
 
-      <div className="fixed right-4 bottom-4 z-40 flex items-center gap-2">
-        <a href="#enquiry" className="inline-flex h-11 items-center rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-lg">
+      <div className="mobile-cta-bar fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-[#ebe4dc] bg-white/95 p-3 backdrop-blur sm:inset-x-auto sm:right-4 sm:bottom-4 sm:flex sm:items-center sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
+        <a href="#enquiry" className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-lg">
           {hi ? "पूछताछ" : "Enquire"}
         </a>
-        <a href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center rounded-full bg-[#3d2918] px-4 text-sm font-semibold text-white shadow-lg">
+        <a href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center justify-center rounded-full bg-[#3d2918] px-4 text-sm font-semibold text-white shadow-lg">
           {hi ? "व्हाट्सएप" : "WhatsApp"}
         </a>
       </div>

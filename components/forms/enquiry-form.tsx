@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { useI18n } from "@/components/providers/language-provider";
-import { COURSES } from "@/lib/courses";
+import { COURSES, ONLINE_COURSES } from "@/lib/courses";
 import { INDIAN_STATES } from "@/lib/site";
 import { createEnquiry } from "@/lib/api";
 import { enquiryWhatsappMessage, whatsappLink } from "@/lib/whatsapp";
@@ -31,6 +31,8 @@ type EnquiryValues = z.infer<typeof schema>;
 
 export function EnquiryForm({ compact = false, defaultCourse }: { compact?: boolean; defaultCourse?: string }) {
   const { t, locale } = useI18n();
+  const extra = defaultCourse ? COURSES.find((c) => c.name === defaultCourse && !ONLINE_COURSES.includes(c)) : undefined;
+  const courseOptions = extra ? [extra, ...ONLINE_COURSES] : ONLINE_COURSES;
   const form = useForm<EnquiryValues>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -39,7 +41,7 @@ export function EnquiryForm({ compact = false, defaultCourse }: { compact?: bool
       email: "",
       state: "Uttar Pradesh",
       city: "",
-      course: defaultCourse ?? COURSES[0].name,
+      course: defaultCourse ?? ONLINE_COURSES[0].name,
       message: "",
     },
   });
@@ -116,7 +118,7 @@ export function EnquiryForm({ compact = false, defaultCourse }: { compact?: bool
           <div className="grid min-w-0 gap-1.5">
             <Label htmlFor="course">{t.enquiry.course}</Label>
             <select id="course" className="h-11 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 text-sm" {...form.register("course")}>
-              {COURSES.map((c) => (
+              {courseOptions.map((c) => (
                 <option key={c.slug} value={c.name}>{locale === "hi" ? c.nameHi : c.name}</option>
               ))}
             </select>

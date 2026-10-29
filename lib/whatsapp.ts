@@ -1,4 +1,4 @@
-import { COURSES } from "@/lib/courses";
+import { ONLINE_COURSES } from "@/lib/courses";
 import { SITE } from "@/lib/site";
 
 export function whatsappLink(text?: string) {
@@ -30,4 +30,4 @@ export function enquiryWhatsappMessage(payload: {
     .join("\n");
 }
 
-export const COURSE_OPTIONS = COURSES.map((course) => course.name);
+export const COURSE_OPTIONS = ONLINE_COURSES.map((course) => course.name);

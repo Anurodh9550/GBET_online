@@ -4,7 +4,8 @@ import { FormEvent, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { COURSES } from "@/lib/courses";
+import { createEnquiry } from "@/lib/api";
+import { ONLINE_COURSES } from "@/lib/courses";
 import { SITE } from "@/lib/site";
 import { toast } from "sonner";
 import { Reveal } from "@/components/shared/reveal";
@@ -21,18 +22,15 @@ export default function BrochurePage() {
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    const res = await fetch("/api/enquiry", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fullName: name,
-        mobile: phone,
-        email,
-        state: "Uttar Pradesh",
-        city: "Noida",
-        course: "Brochure download",
-        message: "Requested 2027 brochure",
-      }),
+    const res = await createEnquiry({
+      full_name: name,
+      mobile: phone,
+      email,
+      state: "Uttar Pradesh",
+      city: "Noida",
+      course: "Brochure download",
+      message: "Requested 2027 brochure",
+      source: "brochure",
     });
     if (!res.ok) {
       toast.error("Enter a valid name, 10-digit mobile and email.");
@@ -70,8 +68,8 @@ export default function BrochurePage() {
           <p className="mt-2">{SITE.tagline}</p>
           <h3 className="mt-6 font-semibold">Programmes</h3>
           <ul className="mt-2 list-disc pl-5 text-sm">
-            {COURSES.map((c) => (
-              <li key={c.slug}>{c.name} — {c.duration} — {c.seats} seats — {c.eligibility}</li>
+            {ONLINE_COURSES.map((c) => (
+              <li key={c.slug}>{c.name} — {c.duration} — {c.eligibility}</li>
             ))}
           </ul>
           <p className="mt-6 text-sm">{SITE.phone} · {SITE.email}</p>
