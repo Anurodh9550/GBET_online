@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { ArrowRight, Check, ChevronDown, Download, Menu, Search, Star, X } from "lucide-react";
 import { EnquiryForm } from "@/components/forms/enquiry-form";
 import { BrochureDialog } from "@/components/online/brochure-dialog";
+import { CoursesMenu } from "@/components/online/courses-menu";
 import { useI18n } from "@/components/providers/language-provider";
 import {
   CATEGORIES,
@@ -88,7 +89,7 @@ export function ExploreView() {
           </Link>
           <nav className="hidden items-center gap-7 text-sm font-semibold lg:flex">
             <Link href="/">{hi ? "होम" : "Home"}</Link>
-            <Link href="/courses" className="text-brand">{hi ? "कोर्स" : "Courses"}</Link>
+            <CoursesMenu active onBrochure={() => setBrochureOpen(true)} />
             <Link href="/#stories">{hi ? "कहानियाँ" : "Stories"}</Link>
           </nav>
           <div className="hidden items-center gap-3 lg:flex">

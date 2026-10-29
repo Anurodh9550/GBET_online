@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, ChevronDown, Download, Menu, Star, X } from "lucide-react";
+import { ArrowRight, Check, Download, Menu, Star, X } from "lucide-react";
 import { EnquiryForm } from "@/components/forms/enquiry-form";
 import { BrochureDialog } from "@/components/online/brochure-dialog";
+import { CoursesMenu } from "@/components/online/courses-menu";
 import { Reveal } from "@/components/shared/reveal";
 import { useI18n } from "@/components/providers/language-provider";
 import { CATEGORIES, COURSES, ONLINE_SHOWCASE, courseKind, programmeLabel, type CourseCategory } from "@/lib/courses";
@@ -126,24 +127,11 @@ export function OnlineView() {
   const [hero, setHero] = useState(0);
   const [category, setCategory] = useState<CourseCategory | "all">("all");
   const [menu, setMenu] = useState(false);
-  const [coursesOpen, setCoursesOpen] = useState(false);
   const [brochureOpen, setBrochureOpen] = useState(false);
-  const closeCourses = useRef<number | null>(null);
-
-  const openCourses = () => {
-    if (closeCourses.current) window.clearTimeout(closeCourses.current);
-    setCoursesOpen(true);
-  };
-  const hideCourses = () => {
-    closeCourses.current = window.setTimeout(() => setCoursesOpen(false), 140);
-  };
 
   useEffect(() => {
     const timer = window.setInterval(() => setHero((n) => (n + 1) % HERO.length), 6500);
-    return () => {
-      window.clearInterval(timer);
-      if (closeCourses.current) window.clearTimeout(closeCourses.current);
-    };
+    return () => window.clearInterval(timer);
   }, []);
 
   const courses = useMemo(() => {
@@ -168,16 +156,7 @@ export function OnlineView() {
           </Link>
           <nav className="hidden items-center gap-7 text-sm font-semibold lg:flex">
             <a href="#top">{hi ? "होम" : "Home"}</a>
-            <Link
-              href="/courses"
-              className="inline-flex items-center gap-1"
-              aria-expanded={coursesOpen}
-              onMouseEnter={openCourses}
-              onMouseLeave={hideCourses}
-              onFocus={openCourses}
-            >
-              {hi ? "कोर्स" : "Courses"} <ChevronDown className={cn("size-4 transition", coursesOpen && "rotate-180")} />
-            </Link>
+            <CoursesMenu onBrochure={() => setBrochureOpen(true)} />
             <Link href="/courses">{hi ? "एक्सप्लोर" : "Explore"}</Link>
           </nav>
           <div className="hidden items-center gap-2 lg:flex">
@@ -188,21 +167,6 @@ export function OnlineView() {
             {menu ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
-        {coursesOpen ? (
-          <div className="hidden border-t border-[#ebe4dc] bg-white lg:block" onMouseEnter={openCourses} onMouseLeave={hideCourses}>
-            <div className="mx-auto grid max-w-7xl grid-cols-4 gap-3 px-6 py-5 text-sm">
-              {SHOWCASE.map((slug) => {
-                const course = COURSES.find((c) => c.slug === slug);
-                if (!course) return null;
-                return (
-                  <Link key={slug} href={`/courses/${slug}`} className="rounded-xl px-3 py-2 hover:bg-[#fcfaf7]" onClick={() => setCoursesOpen(false)}>
-                    {course.shortName}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        ) : null}
         {menu ? (
           <div className="space-y-3 border-t border-[#ebe4dc] px-4 py-4 text-sm font-semibold lg:hidden">
             <Link href="/courses" onClick={() => setMenu(false)} className="block">{hi ? "कोर्स" : "Courses"}</Link>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowRight, BookOpen, Calendar, Check, ChevronDown, Clock, FolderOpen, MapPin, Menu, Phone, Star, X } from "lucide-react";
 import { BrochureDialog } from "@/components/online/brochure-dialog";
+import { CoursesMenu } from "@/components/online/courses-menu";
 import { EnquiryForm } from "@/components/forms/enquiry-form";
 import { useI18n } from "@/components/providers/language-provider";
 import { SUCCESS_STORIES } from "@/lib/content";
@@ -77,7 +78,7 @@ export function CourseDetail({ slug }: { slug: string }) {
           </Link>
           <nav className="hidden items-center gap-7 text-sm font-semibold lg:flex">
             <Link href="/">{hi ? "होम" : "Home"}</Link>
-            <Link href="/courses">{hi ? "कोर्स" : "Courses"}</Link>
+            <CoursesMenu active onBrochure={() => setBrochureOpen(true)} />
             <Link href="/#stories">{hi ? "कहानियाँ" : "Stories"}</Link>
           </nav>
           <div className="hidden items-center gap-3 lg:flex">
