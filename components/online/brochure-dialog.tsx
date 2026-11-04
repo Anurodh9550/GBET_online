@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Mail, Phone, ShieldCheck, User, X } from "lucide-react";
+import { ArrowRight, Download, Mail, Phone, ShieldCheck, User, X } from "lucide-react";
 import { useI18n } from "@/components/providers/language-provider";
 import { createEnquiry } from "@/lib/api";
 import { ONLINE_COURSES } from "@/lib/courses";
@@ -11,17 +11,27 @@ import { cn } from "@/lib/utils";
 
 const brochureKey = "gbet-brochure-unlocked";
 
-export function BrochureDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function BrochureDialog({
+  open,
+  onClose,
+  defaultCourse,
+}: {
+  open: boolean;
+  onClose: () => void;
+  defaultCourse?: string;
+}) {
   const { locale } = useI18n();
   const hi = locale === "hi";
   const router = useRouter();
   const closeRef = useRef(onClose);
-  closeRef.current = onClose;
+  useEffect(() => {
+    closeRef.current = onClose;
+  });
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [course, setCourse] = useState("");
+  const [course, setCourse] = useState(defaultCourse ?? "");
   const [state, setState] = useState("Uttar Pradesh");
   const [city, setCity] = useState("");
   const [error, setError] = useState("");
@@ -95,8 +105,15 @@ export function BrochureDialog({ open, onClose }: { open: boolean; onClose: () =
     setStep(4);
   }
 
-  function openBrochure() {
+  const brochureSlug = ONLINE_COURSES.find((item) => item.name === course)?.slug;
+
+  function unlockBrochures() {
     window.sessionStorage.setItem(brochureKey, "1");
+    window.dispatchEvent(new Event(brochureKey));
+  }
+
+  function openAllBrochures() {
+    unlockBrochures();
     onClose();
     router.push("/brochure");
   }
@@ -224,11 +241,29 @@ export function BrochureDialog({ open, onClose }: { open: boolean; onClose: () =
             <h2 id="brochure-title" className="text-2xl font-bold">{hi ? "ब्रोशर तैयार है।" : "The brochure is ready."}</h2>
             <p className="mt-3 text-sm leading-6 text-stone-600">
               {hi
-                ? "प्रवेश डेस्क इस नंबर पर कॉल करेगी। ब्रोशर खोलकर प्रिंट या PDF सेव कर सकते हैं।"
-                : "The admissions desk will call this number. Open the brochure to print it or save a PDF."}
+                ? "प्रवेश डेस्क इस नंबर पर कॉल करेगी। नीचे से कोर्स का ब्रोशर (PDF) डाउनलोड करें।"
+                : "The admissions desk will call this number. Download the course brochure (PDF) below."}
             </p>
-            <button type="button" className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand text-sm font-bold tracking-wide text-white uppercase" onClick={openBrochure}>
-              {hi ? "ब्रोशर खोलें" : "Open brochure"} <ArrowRight className="size-4" />
+            {brochureSlug ? (
+              <a
+                href={`/brochures/${brochureSlug}.pdf`}
+                download={`GBET-Online-${brochureSlug}-brochure.pdf`}
+                onClick={unlockBrochures}
+                className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand text-sm font-bold tracking-wide text-white uppercase"
+              >
+                <Download className="size-4" />
+                {hi ? "ब्रोशर डाउनलोड करें" : "Download brochure"}
+              </a>
+            ) : null}
+            <button
+              type="button"
+              className={cn(
+                "inline-flex h-12 w-full items-center justify-center gap-2 rounded-full text-sm font-bold tracking-wide uppercase",
+                brochureSlug ? "mt-3 border border-[#ebe4dc]" : "mt-6 bg-brand text-white",
+              )}
+              onClick={openAllBrochures}
+            >
+              {hi ? "सभी कोर्स के ब्रोशर" : "All course brochures"} <ArrowRight className="size-4" />
             </button>
           </div>
         ) : null}

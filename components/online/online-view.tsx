@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Download, Menu, Star, X } from "lucide-react";
+import { ArrowRight, Check, Download, Menu, X } from "lucide-react";
 import { EnquiryForm } from "@/components/forms/enquiry-form";
 import { BrochureDialog } from "@/components/online/brochure-dialog";
 import { CoursesMenu } from "@/components/online/courses-menu";
@@ -160,7 +160,7 @@ export function OnlineView() {
             <Link href="/courses">{hi ? "एक्सप्लोर" : "Explore"}</Link>
           </nav>
           <div className="hidden items-center gap-2 lg:flex">
-            <a href={`${SITE.campusUrl}/login/student`} className="px-3 py-2 text-sm font-semibold">{hi ? "लॉगिन" : "Login"}</a>
+            <Link href="/student/login" className="px-3 py-2 text-sm font-semibold">{hi ? "लॉगिन" : "Login"}</Link>
             <a href="#enquiry" className="rounded-full bg-brand px-4 py-2.5 text-sm font-semibold text-white">{hi ? "शुरू करें" : "Get started"}</a>
           </div>
           <button type="button" className="grid size-10 place-items-center rounded-full border border-[#ebe4dc] lg:hidden" onClick={() => setMenu((v) => !v)} aria-label="Menu">
@@ -172,7 +172,7 @@ export function OnlineView() {
             <Link href="/courses" onClick={() => setMenu(false)} className="block">{hi ? "कोर्स" : "Courses"}</Link>
             <a href="#stories" onClick={() => setMenu(false)} className="block">{hi ? "कहानियाँ" : "Stories"}</a>
             <a href="#faq" onClick={() => setMenu(false)} className="block">FAQ</a>
-            <a href={`${SITE.campusUrl}/login/student`} className="block">{hi ? "लॉगिन" : "Login"}</a>
+            <Link href="/student/login" onClick={() => setMenu(false)} className="block">{hi ? "लॉगिन" : "Login"}</Link>
           </div>
         ) : null}
       </header>
@@ -229,9 +229,9 @@ export function OnlineView() {
       </Reveal>
 
       <section id="courses" className="relative z-10 mx-auto max-w-7xl bg-[#fcfaf7] px-4 py-12 sm:px-6 sm:py-24">
-        <Reveal hover={false} amount={0.45} className="max-w-3xl">
+        <Reveal hover={false} amount={0.45}>
           <p className="text-sm font-semibold text-brand">{hi ? "डिप्लोमा कोर्स" : "Diploma courses"}</p>
-          <h2 className="mt-2 font-serif text-[2rem] leading-[1.08] sm:text-5xl lg:text-6xl">
+          <h2 className="mt-2 font-serif text-[2rem] leading-[1.08] sm:text-5xl lg:text-[3.15rem] xl:text-6xl">
             {hi ? "वह कोर्स चुनें जो आपके लक्ष्य से मेल खाए" : "Find the course that aligns with your goals"}
           </h2>
           <p className="mt-4 max-w-2xl text-stone-600">
@@ -256,12 +256,6 @@ export function OnlineView() {
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <h3 className="text-lg leading-snug font-semibold sm:min-h-[3.5rem]">{hi ? course.nameHi : course.name}</h3>
-                  <p className="mt-2 flex items-center gap-1.5 text-sm">
-                    <Star className="size-4 fill-brand text-brand" />
-                    {course.rating}
-                    <span className="text-stone-400">({course.reviews})</span>
-                    <span className="ml-auto text-xs text-stone-500">{course.enrolled} {hi ? "नामांकित" : "enrolled"}</span>
-                  </p>
                   <p className="mt-4 text-[11px] font-bold tracking-wide text-brand uppercase">{hi ? "अभ्यास" : "Studio practice"}</p>
                   <ul className="mt-2 grid grid-cols-2 gap-x-2 gap-y-1.5 text-xs">
                     {(hi ? course.learnHi : course.learn).slice(0, 4).map((item) => (
@@ -294,17 +288,17 @@ export function OnlineView() {
           <p className="mt-8 rounded-2xl border border-[#ebe4dc] bg-white p-6 text-sm">{hi ? "इस क्षेत्र के सभी कोर्स नीचे वाले बटन से देखें।" : "See every course in this area from the button below."}</p>
         ) : null}
         <div className="relative z-20 mt-8 text-center sm:mt-10">
-          <a href="/courses" className="inline-flex h-12 w-full items-center justify-center rounded-full border border-[#3d2918] px-6 text-sm font-semibold hover:bg-[#3d2918] hover:text-white sm:w-auto">
+          <Link href="/courses" className="inline-flex h-12 w-full items-center justify-center rounded-full border border-[#3d2918] px-6 text-sm font-semibold hover:bg-[#3d2918] hover:text-white sm:w-auto">
             {hi ? "सभी डिप्लोमा कोर्स देखें" : "Explore all diploma courses"}
-          </a>
+          </Link>
         </div>
       </section>
 
       <section className="bg-white py-12 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal hover={false} amount={0.45} className="max-w-xl">
+          <Reveal hover={false} amount={0.45}>
             <h2 className="font-serif text-[2rem] leading-tight sm:text-5xl lg:text-6xl">{hi ? "पहली भूमिका तक का रास्ता" : "Your gateway to a first role"}</h2>
-            <p className="mt-3 text-stone-600">
+            <p className="mt-3 max-w-2xl text-stone-600">
               {hi
                 ? "ऑनलाइन पढ़ाई यहीं नहीं रुकती। करियर सेल भूमिका चुनने से लेकर पहली नौकरी तक साथ रहता है।"
                 : "Online study does not stop at the lesson. The career cell stays with you from the role you choose to the first job."}
@@ -331,7 +325,7 @@ export function OnlineView() {
 
       <section id="stories" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-24">
         <Reveal hover={false} amount={0.45}>
-          <h2 className="font-serif text-[2rem] sm:text-5xl lg:text-6xl">{hi ? "असली कहानियाँ।" : "Real stories."}<span className="block italic text-brand">{hi ? "असली प्रगति।" : "Real progress."}</span></h2>
+          <h2 className="font-serif text-[2rem] sm:text-5xl lg:text-6xl">{hi ? "असली कहानियाँ।" : "Real stories."} <span className="italic text-brand">{hi ? "असली प्रगति।" : "Real progress."}</span></h2>
         </Reveal>
         <div className="no-scrollbar -mx-4 mt-8 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:mt-10 sm:scroll-px-6 sm:gap-5 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-0 lg:pb-0">
           {stories.map((story, i) => (
@@ -353,7 +347,7 @@ export function OnlineView() {
 
       <section className="bg-[#3d2918] py-12 text-white sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal hover={false} amount={0.45} className="max-w-xl">
+          <Reveal hover={false} amount={0.45}>
             <h2 className="font-serif text-[2rem] leading-tight sm:text-5xl lg:text-6xl">{hi ? "शिक्षार्थी GBET Online क्यों चुनते हैं" : "Why learners choose GBET Online"}</h2>
           </Reveal>
           <div className="mt-8 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-3 lg:grid-cols-4">
@@ -367,8 +361,8 @@ export function OnlineView() {
           </div>
           <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 sm:mt-12 lg:grid-cols-4">
             {[
-              ["95%", hi ? "प्लेसमेंट सहायता" : "Placement support"],
-              ["100+", hi ? "हायरिंग पार्टनर" : "Hiring partners"],
+              [String(SHOWCASE.length), hi ? "ऑनलाइन कोर्स" : "Online courses"],
+              ["7", hi ? "अध्ययन क्षेत्र" : "Study areas"],
               [SITE.year, hi ? "प्रवेश खुला" : "Admissions open"],
               ["Noida", hi ? "काउंसलिंग डेस्क" : "Counselling desk"],
             ].map(([value, label], i) => (
@@ -384,9 +378,9 @@ export function OnlineView() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-        <Reveal hover={false} amount={0.45} className="max-w-xl">
+        <Reveal hover={false} amount={0.45}>
           <h2 className="font-serif text-[2rem] sm:text-5xl lg:text-6xl">{hi ? "हर कोर्स के पीछे एक स्टूडियो" : "A studio behind each course"}</h2>
-          <p className="mt-3 text-stone-600">{hi ? "डिज़ाइन, मीडिया, वेलनेस और हेल्थकेयर की पढ़ाई नोएडा टीम से जुड़ी है।" : "Design, media, wellness and healthcare study stays linked to the Noida team."}</p>
+          <p className="mt-3 max-w-2xl text-stone-600">{hi ? "डिज़ाइन, मीडिया, वेलनेस और हेल्थकेयर की पढ़ाई नोएडा टीम से जुड़ी है।" : "Design, media, wellness and healthcare study stays linked to the Noida team."}</p>
         </Reveal>
         <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-4 lg:grid-cols-3">
           {STUDIOS.map((studio, i) => (
@@ -406,14 +400,14 @@ export function OnlineView() {
           <Reveal hover={false} amount={0.35}>
             <article className="h-full rounded-3xl bg-[#fcfaf7] p-6 sm:p-8">
               <p className="text-xs font-semibold tracking-[0.16em] text-brand uppercase">{hi ? "परिसर रिकॉर्ड" : "Campus record"}</p>
-              <h2 className="mt-3 font-serif text-3xl sm:text-4xl">{hi ? "पढ़ाई का प्रमाण" : "A record of the work you did"}</h2>
+              <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-[2rem] xl:text-4xl">{hi ? "पढ़ाई का प्रमाण" : "A record of the work you did"}</h2>
               <p className="mt-4 text-sm leading-7 text-stone-600">{hi ? "कोर्स पूरा होने पर दस्तावेज़ काउंसलिंग डेस्क से मिलता है। नियम हर कार्यक्रम के अनुसार होते हैं।" : "On completion, the counselling desk issues the programme document. Rules follow the programme you join."}</p>
             </article>
           </Reveal>
           <Reveal hover={false} amount={0.35} delay={0.1}>
             <article className="h-full rounded-3xl bg-[#3d2918] p-6 text-white sm:p-8">
               <p className="text-xs font-semibold tracking-[0.16em] text-brand uppercase">{hi ? "अभ्यास" : "Practice"}</p>
-              <h2 className="mt-3 font-serif text-3xl sm:text-4xl">{hi ? "दिखाने लायक काम" : "Work you can show"}</h2>
+              <h2 className="mt-3 font-serif text-3xl sm:text-4xl lg:text-[2rem] xl:text-4xl">{hi ? "दिखाने लायक काम" : "Work you can show"}</h2>
               <p className="mt-4 text-sm leading-7 text-white/75">{hi ? "प्रोजेक्ट, लैब फाइल और लाइव सेशन उसी पोर्टफोलियो में जाते हैं जिसे आप इंटरव्यू में रखते हैं।" : "Projects, lab files and live sessions go into the portfolio you take to an interview."}</p>
             </article>
           </Reveal>
@@ -421,7 +415,7 @@ export function OnlineView() {
       </section>
 
       <section id="workshops" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-        <Reveal hover={false} amount={0.45} className="max-w-xl">
+        <Reveal hover={false} amount={0.45}>
           <h2 className="font-serif text-[2rem] sm:text-5xl lg:text-6xl">{hi ? "विशेषज्ञ वर्कशॉप" : "Expert-led workshops"}</h2>
           <p className="mt-3 text-stone-600">{hi ? "साल भर स्टूडियो सत्र जो ऑनलाइन बैच का हिस्सा हैं।" : "Studio sessions through the year, as part of the online batch."}</p>
         </Reveal>
@@ -455,7 +449,7 @@ export function OnlineView() {
               ) : null}
               <div>
                 <p className="font-semibold">{stories[0] ? (hi ? stories[0].nameHi : stories[0].name) : ""}</p>
-                <p className="text-xs text-stone-500">{hi ? "सत्यापित छात्र" : "Verified learner"}</p>
+                <p className="text-xs text-stone-500">{hi ? "छात्र अनुभव" : "Learner story"}</p>
               </div>
             </div>
           </article>
@@ -470,9 +464,9 @@ export function OnlineView() {
         </div>
       </section>
 
-      <section id="faq" className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+      <section id="faq" className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
         <Reveal hover={false} amount={0.45}>
-          <h2 className="text-center font-serif text-[2rem] sm:text-5xl lg:text-6xl">{hi ? "सवाल हैं?" : "Got questions?"}<span className="block">{hi ? "जवाब हैं।" : "We've got answers."}</span></h2>
+          <h2 className="text-center font-serif text-[2rem] sm:text-4xl lg:text-5xl">{hi ? "सवाल हैं?" : "Got questions?"} <span>{hi ? "जवाब हैं।" : "We've got answers."}</span></h2>
         </Reveal>
         <div className="mt-8 divide-y divide-[#ebe4dc] overflow-hidden rounded-3xl border border-[#ebe4dc] bg-white">
           {FAQS.map((item, i) => (
@@ -485,7 +479,7 @@ export function OnlineView() {
           ))}
         </div>
         <Reveal hover={false} amount={0.5} className="mt-6 text-center text-sm">
-          <a href={`${SITE.campusUrl}/contact`} className="font-semibold text-brand">{hi ? "और सवाल हों तो प्रवेश टीम से बात करें" : "Have more questions? Contact the admissions team"}</a>
+          <a href="/contact" className="font-semibold text-brand">{hi ? "और सवाल हों तो प्रवेश टीम से बात करें" : "Have more questions? Contact the admissions team"}</a>
         </Reveal>
       </section>
       <BrochureDialog open={brochureOpen} onClose={() => setBrochureOpen(false)} />

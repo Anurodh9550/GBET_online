@@ -1,25 +1,39 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CourseDetail } from "@/components/online/course-detail";
-import { ONLINE_COURSES, getOnlineCourse } from "@/lib/courses";
-import { pageMetadata, JsonLd } from "@/lib/seo";
+import { CourseDetailsView } from "@/components/courses/course-details-view";
+import { CATALOG, getCatalogCourse } from "@/lib/course-catalog";
+import { JsonLd, pageMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
+
+type Params = { params: Promise<{ slug: string }> };
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return ONLINE_COURSES.map((course) => ({ slug: course.slug }));
+  return CATALOG.map((course) => ({ slug: course.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const course = getOnlineCourse(slug);
-  if (!course) return {};
-  return pageMetadata(course.name, course.overview, `/courses/${course.slug}`);
+  const course = getCatalogCourse(slug);
+  if (!course) return { title: "Course not found", robots: { index: false } };
+
+  const title = `${course.title} – Online ${course.programmeType}`;
+  const description = `${course.summary} ${course.duration}, online. Eligibility: ${course.eligibility}.`;
+  const base = pageMetadata(title, description, `/courses/${course.slug}`);
+  const image = { url: course.banner, alt: course.title };
+
+  return {
+    ...base,
+    keywords: [course.title, course.shortTitle, `${course.shortTitle} online course`, course.categoryLabel, SITE.name],
+    openGraph: { ...base.openGraph, images: [image] },
+    twitter: { ...base.twitter, images: [course.banner] },
+  };
 }
 
-export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function CoursePage({ params }: Params) {
   const { slug } = await params;
-  const course = getOnlineCourse(slug);
+  const course = getCatalogCourse(slug);
   if (!course) notFound();
 
   return (
@@ -28,12 +42,36 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
         data={{
           "@context": "https://schema.org",
           "@type": "Course",
-          name: course.name,
-          description: course.overview,
+          name: course.title,
+          description: course.description,
+          url: `${SITE.url}/courses/${course.slug}`,
+          image: `${SITE.url}${course.banner}`,
+          educationalCredentialAwarded: course.programmeType,
           provider: { "@type": "EducationalOrganization", name: SITE.fullName, url: SITE.url },
+          hasCourseInstance: {
+            "@type": "CourseInstance",
+            courseMode: "online",
+            courseWorkload: course.duration,
+          },
+          syllabusSections: course.curriculum.map((module) => ({
+            "@type": "Syllabus",
+            name: `Module ${module.number}: ${module.title}`,
+            description: module.topics.join(", "),
+          })),
         }}
       />
-      <CourseDetail slug={course.slug} />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: course.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: { "@type": "Answer", text: faq.answer },
+          })),
+        }}
+      />
+      <CourseDetailsView course={course} />
     </>
   );
 }

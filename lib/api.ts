@@ -3,7 +3,15 @@ export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000
 export const ADMIN_TOKEN_KEY = "gbet-online-admin-token";
 
 export type EnquiryStatus = "new" | "called" | "closed";
-export type EnquirySource = "website" | "brochure";
+export type EnquirySource = "website" | "brochure" | "application" | "counselling" | "scholarship";
+
+export const SOURCE_LABEL: Record<EnquirySource, string> = {
+  website: "Website",
+  brochure: "Brochure",
+  application: "Application",
+  counselling: "Counselling",
+  scholarship: "Scholarship",
+};
 
 export type Enquiry = {
   id: number;

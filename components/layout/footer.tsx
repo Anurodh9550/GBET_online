@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { useI18n } from "@/components/providers/language-provider";
@@ -65,13 +66,13 @@ export function Footer() {
             {locale === "hi" ? "साथ मिलकर हम आपकी पहली भूमिका बनाते हैं।" : "Together, we shape your first role."}
           </p>
         </div>
-        <a
-          href={campusHref("/contact")}
+        <Link
+          href="/contact"
           className="inline-flex h-11 shrink-0 items-center gap-2 self-start rounded-full bg-brand px-6 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(232,92,26,0.28)] hover:bg-brand/90"
         >
           {locale === "hi" ? "संपर्क करें" : "Contact Us"}
           <ArrowRight className="size-4" />
-        </a>
+        </Link>
       </div>
 
       <div className="mx-auto max-w-7xl border-t border-[#ebe4dc] px-4 sm:px-6">
@@ -115,15 +116,15 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm text-stone-600">
               {ABOUT_LINKS.map((item) => (
                 <li key={item.href}>
-                  <a href={campusHref(item.href)} className="hover:text-brand">
+                  <a href={item.href === "/contact" ? "/contact" : campusHref(item.href)} className="hover:text-brand">
                     {t.nav[item.key]}
                   </a>
                 </li>
               ))}
               <li>
-                <a href={campusHref("/login/student")} className="hover:text-brand">
+                <Link href="/student/login" className="hover:text-brand">
                   {t.top.student}
-                </a>
+                </Link>
               </li>
             </ul>
             <div className="mt-8">
@@ -164,9 +165,9 @@ export function Footer() {
                     <ul className="mt-2 space-y-2 text-sm text-stone-600">
                       {items.map((course) => (
                         <li key={course.slug}>
-                          <a href={`/courses/${course.slug}`} className="hover:text-brand">
+                          <Link href={`/courses/${course.slug}`} className="hover:text-brand">
                             {locale === "hi" ? course.nameHi : course.shortName}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -174,10 +175,10 @@ export function Footer() {
                 );
               })}
               {i === COURSE_COLUMNS.length - 1 ? (
-                <a href="/courses" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand/80">
+                <Link href="/courses" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand/80">
                   {locale === "hi" ? "सभी कोर्स देखें" : "View all courses"}
                   <ArrowRight className="size-4" />
-                </a>
+                </Link>
               ) : null}
             </div>
           ))}
@@ -187,15 +188,15 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm text-stone-600">
               {RESOURCE_LINKS.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href === "/brochure" ? "/brochure" : campusHref(item.href)} className="hover:text-brand">
+                  <Link href={item.href} className="hover:text-brand">
                     {t.nav[item.key]}
-                  </a>
+                  </Link>
                 </li>
               ))}
               <li>
-                <a href={campusHref("/counselling")} className="hover:text-brand">
+                <Link href="/counselling" className="hover:text-brand">
                   {t.nav.counselling}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
